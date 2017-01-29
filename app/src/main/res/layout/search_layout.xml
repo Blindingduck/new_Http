@@ -7,34 +7,34 @@
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvNo"
+        android:id="@+id/tvsNo"
         android:layout_weight="1" />
 
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvId"
+        android:id="@+id/tvsId"
         android:layout_weight="1" />
 
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvName"
+        android:id="@+id/tvsName"
         android:layout_weight="1" />
 
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvLastname"
+        android:id="@+id/tvsLastname"
         android:layout_weight="1" />
 
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvUrl"
+        android:id="@+id/tvsUrl"
         android:layout_weight="1" />
 </LinearLayout>

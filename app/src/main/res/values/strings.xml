@@ -62,4 +62,7 @@
         <item>พุธ</item>
         <item>พฤหัสบดี</item>
     </string-array>
+    <string name="edit">EDIT</string>
+    <string name="delete">DELETE</string>
+    <string name="close">CLOSE</string>
 </resources>

@@ -1,5 +1,6 @@
 package a57121035_0.it.montri.http;
 
+import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -47,6 +48,27 @@ public class PracticeActivity extends AppCompatActivity {
         tvCount = (TextView) findViewById(R.id.tvCount);
         tvCount.setVisibility(View.INVISIBLE);
         btn_Search = (Button) findViewById(R.id.btnSearch);
+        lv_Show = (ListView) findViewById(R.id.lvShow);
+
+        lv_Show.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Button btn_Edit,btn_Delete,btn_Close;
+                final Dialog editdata = new Dialog(PracticeActivity.this);
+                editdata.setContentView(R.layout.dialog_layout);
+                btn_Close = (Button) editdata.findViewById(R.id.btnClose);
+                btn_Close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        editdata.dismiss();
+                    }
+                });
+
+
+
+            }
+        });
+
         spn_Name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -112,15 +134,15 @@ public class PracticeActivity extends AppCompatActivity {
                 switch (spn_Lastname.getSelectedItemPosition()){
                     case 0 : lastname ="temp";
                         break;
-                    case 1 : lastname =" lastname LIKE\'"+edt_Searchlastname.getText().toString()+"\' ";
+                    case 1 : lastname =" lastname LIKE \'"+edt_Searchlastname.getText().toString()+"\' ";
                         break;
                     case 2 : lastname =" lastname NOT LIKE \'"+edt_Searchlastname.getText().toString()+"\' ";
                         break;
-                    case 3 : lastname =" lastname LIKE\'"+edt_Searchlastname.getText().toString()+"\'% ";
+                    case 3 : lastname =" lastname LIKE \'"+edt_Searchlastname.getText().toString()+"\'% ";
                         break;
-                    case 4 : lastname =" lastname LIKE\'%"+edt_Searchlastname.getText().toString()+"\' ";
+                    case 4 : lastname =" lastname LIKE \'%"+edt_Searchlastname.getText().toString()+"\' ";
                         break;
-                    case 5 : lastname =" lastname LIKE\'%"+edt_Searchlastname.getText().toString()+"%\' ";
+                    case 5 : lastname =" lastname LIKE \'%"+edt_Searchlastname.getText().toString()+"%\' ";
                         break;
                 }
                 switch (spn_Gender.getSelectedItemPosition()){
@@ -141,17 +163,17 @@ public class PracticeActivity extends AppCompatActivity {
                 }
 
                 url = "SELECT id,name,lastname,url FROM student WHERE "+name+con+lastname+con+gender+con+dayLab;
-                //url = "name="+name+"&lastname="+lastname+"&gender="+gender+"&dayLab="+dayLab+"&condition="+con;
                 url = url.replaceAll("temp","");
-                Log.e("url",url);
+                url = url.substring(0,url.lastIndexOf("'")+1);
+//                Log.e("url",url);
                 String sql = Base64.encodeToString(url.getBytes(),Base64.DEFAULT);
                 sql = sql.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
-                Log.e("sql",sql);
+//                Log.e("sql",sql);
+
                 List<HashMap<String,String>> myList = new ArrayList<HashMap<String, String>>();
-                SimpleAdapter list_Adapter = null;
                 HttpClient httpClient = new DefaultHttpClient();
                 HttpPost httpPost = null;
-                httpPost = new HttpPost("http://10.0.2.2/android/searchAll.php?SQL=");
+                httpPost = new HttpPost("http://10.0.2.2/android/searchAll.php?SQL="+sql);
                 HttpResponse httpResponse = null;
                 BufferedReader bufferedReader = null;
                 String data = "";
@@ -172,10 +194,10 @@ public class PracticeActivity extends AppCompatActivity {
                             myList.add(myHashmap);
                             i++;
                         }
-                        String[] from = new String[]{"No", "ID", "Name","Lastname","url"};
-                        int[] to = new int[]{R.id.tvNo, R.id.tvID, R.id.tvName,R.id.tvLastname,R.id.tvUrl};
-                        list_Adapter = new SimpleAdapter(PracticeActivity.this, myList, R.layout.search_layout, from, to);
-                        lv_Show.setAdapter(list_Adapter);
+                        String[] from = new String[] {"No","ID","Name","Lastname","url"};
+                        int[] to = new int[]{R.id.tvsNo,R.id.tvsId,R.id.tvsName,R.id.tvsLastname,R.id.tvsUrl};
+                        SimpleAdapter simpleAdapter = new SimpleAdapter(PracticeActivity.this,myList,R.layout.search_layout,from,to);
+                        lv_Show.setAdapter(simpleAdapter);
 
                     } catch (IOException e) {
                         e.printStackTrace();

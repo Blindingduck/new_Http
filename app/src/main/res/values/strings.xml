@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">Http</string>
+    <string name="id">ID</string>
+    <string name="name">Name</string>
+    <string name="lastname">Lastname</string>
+    <string name="gender">Gender</string>
+    <string name="email">Email</string>
+    <string name="url">Url</string>
+    <string name="daylab">DayLAB</string>
+    <string name="groupLab">GroupLAB</string>
+    <string name="blank"></string>
+    <string name="no">No.</string>
+    <string name="showdata">Show Data</string>
+    <string name="insertdata">Insert Data</string>
+    <string-array name="grouplabitem">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+    </string-array>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="wed">WED</string>
+    <string name="thu">THU</string>
+    <string name="clear">Clear</string>
+    <string name="practice">Practice</string>
+    <string name="condition">Condition</string>
+    <string name="day">Day</string>
+    <string name="search">Search</string>
+    <string-array name="conditionarray">
+        <item>NONE</item>
+        <item>และ</item>
+        <item>หรือ</item>
+    </string-array>
+    <string-array name="namearray">
+        <item>NONE</item>
+        <item>เท่ากับ</item>
+        <item>ไม่เท่ากับ</item>
+        <item>ขึ้นต้นด้วย</item>
+        <item>ลงท้ายด้วย</item>
+        <item>มีคำว่า</item>
+    </string-array>
+    <string-array name="genderarray">
+        <item>NONE</item>
+        <item>ผู้ชาย</item>
+        <item>ผู้หญิง</item>
+    </string-array>
+    <string-array name="dayarray">
+        <item>NONE</item>
+        <item>พุธ</item>
+        <item>พฤหัสบดี</item>
+    </string-array>
+</resources>

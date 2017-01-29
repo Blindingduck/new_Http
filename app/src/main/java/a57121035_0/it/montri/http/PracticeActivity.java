@@ -2,6 +2,8 @@ package a57121035_0.it.montri.http;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -20,6 +22,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,63 +85,73 @@ public class PracticeActivity extends AppCompatActivity {
         btn_Search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url="10.0.2.2/searchAll.php";
+                String url,con = "",name= "" ,lastname = "",gender = "",dayLab = "";
+
                 switch (spn_Condition.getSelectedItemPosition()){
-                    case 0 : url+="?condition=";
+                    case 0 : con ="temp";
                         break;
-                    case 1 : url+="?condition=AND";
+                    case 1 : con =" AND ";
                         break;
-                    case 2 : url+="?condition=OR";
+                    case 2 : con =" OR ";
                         break;
                 }
                 switch (spn_Name.getSelectedItemPosition()){
-                    case 0 : url +="&name";
+                    case 0 : name ="temp" ;
                         break;
-                    case 1 : url +="&name=LIKE\'"+edt_Searchname.getText().toString()+"\'";
+                    case 1 : name =" name LIKE \'"+edt_Searchname.getText().toString()+"\' ";
                         break;
-                    case 2 : url +="&name=NOT LIKE\'"+edt_Searchname.getText().toString()+"\'";
+                    case 2 : name =" name NOT LIKE \'"+edt_Searchname.getText().toString()+"\' ";
                         break;
-                    case 3 : url +="&name=LIKE\'"+edt_Searchname.getText().toString()+"%\'";
+                    case 3 : name =" name LIKE \'"+edt_Searchname.getText().toString()+"%\' ";
                         break;
-                    case 4 : url +="&name=LIKE\'%"+edt_Searchname.getText().toString()+"\'";
+                    case 4 : name =" name LIKE \'%"+edt_Searchname.getText().toString()+"\' ";
                         break;
-                    case 5 : url +="&name=LIKE\'%"+edt_Searchname.getText().toString()+"%\'";
+                    case 5 : name =" name LIKE \'%"+edt_Searchname.getText().toString()+"%\' ";
                         break;
                 }
                 switch (spn_Lastname.getSelectedItemPosition()){
-                    case 0 : url +="&lastname";
+                    case 0 : lastname ="temp";
                         break;
-                    case 1 : url +="&lastname=LIKE\'"+edt_Searchlastname.getText().toString()+"\'";
+                    case 1 : lastname =" lastname LIKE\'"+edt_Searchlastname.getText().toString()+"\' ";
                         break;
-                    case 2 : url +="&lastname=NOT LIKE \'"+edt_Searchlastname.getText().toString()+"\'";
+                    case 2 : lastname =" lastname NOT LIKE \'"+edt_Searchlastname.getText().toString()+"\' ";
                         break;
-                    case 3 : url +="&lastname=LIKE\'"+edt_Searchlastname.getText().toString()+"\'%";
+                    case 3 : lastname =" lastname LIKE\'"+edt_Searchlastname.getText().toString()+"\'% ";
                         break;
-                    case 4 : url +="&lastname=LIKE\'%"+edt_Searchlastname.getText().toString()+"\'";
+                    case 4 : lastname =" lastname LIKE\'%"+edt_Searchlastname.getText().toString()+"\' ";
                         break;
-                    case 5 : url +="&lastname=LIKE\'%"+edt_Searchlastname.getText().toString()+"%\'";
+                    case 5 : lastname =" lastname LIKE\'%"+edt_Searchlastname.getText().toString()+"%\' ";
                         break;
                 }
                 switch (spn_Gender.getSelectedItemPosition()){
-                    case 0 : url +="&gender";
+                    case 0 : gender ="temp";
                         break;
-                    case 1 : url +="&gender=M";
+                    case 1 : gender =" gender=\'M\' ";
                         break;
-                    case 2 : url +="&gender=F";
+                    case 2 : gender =" gender=\'F\' ";
                         break;
                 }
                 switch (spn_Day.getSelectedItemPosition()){
-                    case 0 : url +="&day";
+                    case 0 : dayLab ="temp";
                         break;
-                    case 1 : url +="&day=WED";
+                    case 1 : dayLab =" dayLab=\'WED\' ";
                         break;
-                    case 2 : url +="&day=THU";
+                    case 2 : dayLab =" dayLab=\'THU\' ";
                         break;
                 }
+
+                url = "SELECT id,name,lastname,url FROM student WHERE "+name+con+lastname+con+gender+con+dayLab;
+                //url = "name="+name+"&lastname="+lastname+"&gender="+gender+"&dayLab="+dayLab+"&condition="+con;
+                url = url.replaceAll("temp","");
+                Log.e("url",url);
+                String sql = Base64.encodeToString(url.getBytes(),Base64.DEFAULT);
+                sql = sql.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
+                Log.e("sql",sql);
                 List<HashMap<String,String>> myList = new ArrayList<HashMap<String, String>>();
                 SimpleAdapter list_Adapter = null;
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(url);
+                HttpPost httpPost = null;
+                httpPost = new HttpPost("http://10.0.2.2/android/searchAll.php?SQL=");
                 HttpResponse httpResponse = null;
                 BufferedReader bufferedReader = null;
                 String data = "";

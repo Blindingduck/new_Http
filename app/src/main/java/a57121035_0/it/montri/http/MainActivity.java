@@ -14,13 +14,21 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +36,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     EditText edt_ID;
-    Button btn_Show,btn_Insert,btn_Practice;
+    Button btn_Show,btn_Insert,btn_Practice,btn_Json;
     ListView lv_Show;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +48,51 @@ public class MainActivity extends AppCompatActivity {
         btn_Show = (Button) findViewById(R.id.btnShow);
         btn_Insert = (Button) findViewById(R.id.btnInsert);
         btn_Practice = (Button) findViewById(R.id.btnPractice);
+        btn_Json = (Button) findViewById(R.id.btnJson);
         lv_Show = (ListView) findViewById(R.id.lvShow);
+
+        btn_Json.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BufferedReader br = null;
+                String data="",showdata = "";
+                HttpResponse hr;
+                JSONArray jsonArray;
+                HttpClient hc = new DefaultHttpClient();
+                List<NameValuePair> nv = new ArrayList<NameValuePair>();
+                nv.add(new BasicNameValuePair("id",edt_ID.getText().toString()));
+                HttpPost httpPost = null;
+                JSONObject jsonObject ;
+                httpPost = new HttpPost("http://10.0.2.2/android/json.php");
+                try {
+                    httpPost.setEntity(new UrlEncodedFormEntity(nv));
+                    hr = hc.execute(httpPost);
+                    br = new BufferedReader(new InputStreamReader(hr.getEntity().getContent()));
+                    data = br.readLine();
+                    jsonArray = new JSONArray(data);
+                    for(int i=0;i<jsonArray.length();i++){
+                        jsonObject = jsonArray.getJSONObject(i);
+                        if(jsonObject.getString("gender").equals("M"))
+                        {
+                            showdata += "Mister. ";
+                        }
+                        else
+                            showdata += "Miss. ";
+                        showdata += jsonObject.getString("name")+"  ";
+                        showdata += jsonObject.getString("lastname")+"\n";
+                    }
+                    Toast.makeText(MainActivity.this, showdata, Toast.LENGTH_SHORT).show();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         btn_Practice.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -21,7 +21,7 @@
             android:inputType="textPersonName"
             android:text="@string/blank"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/edtDialogID"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -44,7 +44,7 @@
             android:inputType="textPersonName"
             android:text="@string/blank"
             android:ems="10"
-            android:id="@+id/editText2"
+            android:id="@+id/edtDialogName"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -66,7 +66,7 @@
             android:inputType="textPersonName"
             android:text="@string/blank"
             android:ems="10"
-            android:id="@+id/editText3"
+            android:id="@+id/edtDialogLastname"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -88,7 +88,7 @@
             android:inputType="textPersonName"
             android:text="@string/blank"
             android:ems="10"
-            android:id="@+id/editText4"
+            android:id="@+id/edtDialogUrl"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -96,13 +96,13 @@
         android:text="@string/edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button" />
+        android:id="@+id/btnEdit" />
 
     <Button
         android:text="@string/delete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button2" />
+        android:id="@+id/btnDelete" />
 
     <Button
         android:text="@string/close"

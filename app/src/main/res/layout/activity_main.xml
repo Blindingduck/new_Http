@@ -61,6 +61,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnPractice" />
 
+        <Button
+            android:text="@string/json"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnJson" />
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

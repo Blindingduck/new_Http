@@ -65,4 +65,5 @@
     <string name="edit">EDIT</string>
     <string name="delete">DELETE</string>
     <string name="close">CLOSE</string>
+    <string name="json">JSON</string>
 </resources>

@@ -16,9 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,7 +36,9 @@ public class PracticeActivity extends AppCompatActivity {
     Spinner spn_Condition,spn_Name,spn_Lastname,spn_Gender,spn_Day;
     EditText edt_Searchname,edt_Searchlastname;
     Button btn_Search;
+    String sql = "";
     ListView lv_Show;
+    List<HashMap<String,String>> myList = new ArrayList<HashMap<String, String>>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +59,19 @@ public class PracticeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Button btn_Edit,btn_Delete,btn_Close;
+                EditText edt_DialogID,edt_DialogName,edt_DialogLastname,edt_DialogUrl;
                 final Dialog editdata = new Dialog(PracticeActivity.this);
                 editdata.setContentView(R.layout.dialog_layout);
+                btn_Edit = (Button) editdata.findViewById(R.id.btnEdit);
+                btn_Delete = (Button) editdata.findViewById(R.id.btnDelete);
                 btn_Close = (Button) editdata.findViewById(R.id.btnClose);
+                edt_DialogID = (EditText) editdata.findViewById(R.id.edtDialogID);
+                edt_DialogName = (EditText) editdata.findViewById(R.id.edtDialogName);
+                edt_DialogLastname = (EditText) editdata.findViewById(R.id.edtDialogLastname);
+                edt_DialogUrl = (EditText) editdata.findViewById(R.id.edtDialogUrl);
+
+                edt_DialogID.setText(myList.get(i).toString());
+                editdata.show();
                 btn_Close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -110,7 +125,7 @@ public class PracticeActivity extends AppCompatActivity {
                 String url,con = "",name= "" ,lastname = "",gender = "",dayLab = "";
 
                 switch (spn_Condition.getSelectedItemPosition()){
-                    case 0 : con ="temp";
+                    case 0 : con ="";
                         break;
                     case 1 : con =" AND ";
                         break;
@@ -118,7 +133,7 @@ public class PracticeActivity extends AppCompatActivity {
                         break;
                 }
                 switch (spn_Name.getSelectedItemPosition()){
-                    case 0 : name ="temp" ;
+                    case 0 : name ="" ;
                         break;
                     case 1 : name =" name LIKE \'"+edt_Searchname.getText().toString()+"\' ";
                         break;
@@ -132,7 +147,7 @@ public class PracticeActivity extends AppCompatActivity {
                         break;
                 }
                 switch (spn_Lastname.getSelectedItemPosition()){
-                    case 0 : lastname ="temp";
+                    case 0 : lastname ="";
                         break;
                     case 1 : lastname =" lastname LIKE \'"+edt_Searchlastname.getText().toString()+"\' ";
                         break;
@@ -146,7 +161,7 @@ public class PracticeActivity extends AppCompatActivity {
                         break;
                 }
                 switch (spn_Gender.getSelectedItemPosition()){
-                    case 0 : gender ="temp";
+                    case 0 : gender ="";
                         break;
                     case 1 : gender =" gender=\'M\' ";
                         break;
@@ -154,7 +169,7 @@ public class PracticeActivity extends AppCompatActivity {
                         break;
                 }
                 switch (spn_Day.getSelectedItemPosition()){
-                    case 0 : dayLab ="temp";
+                    case 0 : dayLab ="";
                         break;
                     case 1 : dayLab =" dayLab=\'WED\' ";
                         break;
@@ -163,17 +178,24 @@ public class PracticeActivity extends AppCompatActivity {
                 }
 
                 url = "SELECT id,name,lastname,url FROM student WHERE "+name+con+lastname+con+gender+con+dayLab;
-                url = url.replaceAll("temp","");
                 url = url.substring(0,url.lastIndexOf("'")+1);
 //                Log.e("url",url);
-                String sql = Base64.encodeToString(url.getBytes(),Base64.DEFAULT);
+                sql = Base64.encodeToString(url.getBytes(),Base64.DEFAULT);
                 sql = sql.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
-//                Log.e("sql",sql);
+                Log.e("sql",sql);
 
-                List<HashMap<String,String>> myList = new ArrayList<HashMap<String, String>>();
                 HttpClient httpClient = new DefaultHttpClient();
                 HttpPost httpPost = null;
-                httpPost = new HttpPost("http://10.0.2.2/android/searchAll.php?SQL="+sql);
+//                List<NameValuePair> nv = new ArrayList<NameValuePair>();
+//                nv.add(new BasicNameValuePair("name",name));
+//                nv.add(new BasicNameValuePair("gender","M"));
+                httpPost = new HttpPost("http://10.0.2.2/android/json.php?SQL="+sql);
+//                httpPost = new HttpPost("http://10.0.2.2/android/searchAll.php");
+//                try {
+//                    httpPost.setEntity(new UrlEncodedFormEntity(nv));
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
                 HttpResponse httpResponse = null;
                 BufferedReader bufferedReader = null;
                 String data = "";

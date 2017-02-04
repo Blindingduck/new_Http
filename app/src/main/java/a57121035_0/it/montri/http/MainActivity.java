@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         btn_Show = (Button) findViewById(R.id.btnShow);
         btn_Insert = (Button) findViewById(R.id.btnInsert);
         btn_Practice = (Button) findViewById(R.id.btnPractice);
-        btn_Json = (Button) findViewById(R.id.btnJson);
+        btn_Json = (Button) findViewById(R.id.btnJson);//
         lv_Show = (ListView) findViewById(R.id.lvShow);
 
         btn_Json.setOnClickListener(new View.OnClickListener() {

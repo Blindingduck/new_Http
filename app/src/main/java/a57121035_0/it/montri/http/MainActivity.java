@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 nv.add(new BasicNameValuePair("id",edt_ID.getText().toString()));
                 HttpPost httpPost = null;
                 JSONObject jsonObject ;
-                httpPost = new HttpPost("http://10.0.2.2/android/json.php");
+                httpPost = new HttpPost("http://motori.coolpage.biz/android/login.php");
                 try {
                     httpPost.setEntity(new UrlEncodedFormEntity(nv));
                     hr = hc.execute(httpPost);
